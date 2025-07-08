@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Globe, Layers, Smartphone, Database, Shield, X, ExternalLink, Code, IndianRupee, Sparkles } from 'lucide-react';
+import { Brain, Globe, Layers, Smartphone, Database, Shield, X, ExternalLink, Code, IndianRupee, Sparkles, Zap } from 'lucide-react';
 import { trackProjectView, trackButtonClick } from '../utils/analytics';
 
 interface Project {
@@ -16,6 +16,30 @@ const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Floating particles for background
+  const floatingParticles = Array.from({ length: 5 }, (_, i) => (
+    <motion.div
+      key={i}
+      className="absolute w-2 h-2 md:w-3 md:h-3 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-15"
+      animate={{
+        x: [0, 30 + i * 8, 0],
+        y: [0, -25 - i * 6, 0],
+        scale: [1, 1.3, 1],
+        rotate: [0, 180, 360],
+      }}
+      transition={{
+        duration: 7 + i * 1.5,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: i * 0.4,
+      }}
+      style={{
+        left: `${15 + i * 18}%`,
+        top: `${25 + i * 10}%`,
+      }}
+    />
+  ));
 
   const categories = [
     {
@@ -77,8 +101,8 @@ const Projects = () => {
   const fetchProjects = async (categoryId: string) => {
     setLoading(true);
     try {
-      // Simulate API call with mock data
-      await new Promise(resolve => setTimeout(resolve, 800));
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 600));
       const mockProjects = [
         {
           id: 1,
@@ -160,25 +184,38 @@ const Projects = () => {
     }
   };
 
-  // Fast, simple animations
+  // Enhanced but fast animations
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.08,
         delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
     visible: {
       opacity: 1,
       y: 0,
+      scale: 1,
       transition: {
-        duration: 0.3,
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const cardHoverVariants = {
+    hover: {
+      y: -8,
+      scale: 1.02,
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
+      transition: {
+        duration: 0.2,
         ease: "easeOut"
       }
     }
@@ -187,22 +224,22 @@ const Projects = () => {
   const modalVariants = {
     hidden: { 
       opacity: 0,
-      scale: 0.95,
-      y: 20
+      scale: 0.9,
+      y: 50
     },
     visible: { 
       opacity: 1,
       scale: 1,
       y: 0,
       transition: {
-        duration: 0.25,
+        duration: 0.3,
         ease: "easeOut"
       }
     },
     exit: { 
       opacity: 0,
-      scale: 0.95,
-      y: 20,
+      scale: 0.9,
+      y: 50,
       transition: {
         duration: 0.2,
         ease: "easeOut"
@@ -212,26 +249,83 @@ const Projects = () => {
 
   return (
     <section id="projects" className="py-16 md:py-20 bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      {/* Minimal background for mobile performance */}
+      {/* Enhanced floating background */}
       <div className="absolute inset-0 hidden md:block">
-        <div className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full opacity-5" />
+        {/* Floating particles */}
+        {floatingParticles}
+        
+        {/* Larger floating elements */}
+        <motion.div
+          className="absolute top-20 left-20 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full opacity-12"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 20, 0],
+            y: [0, -15, 0],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 11,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-16 h-16 bg-gradient-to-r from-pink-200 to-yellow-200 rounded-full opacity-12"
+          animate={{
+            scale: [1, 0.8, 1],
+            x: [0, -18, 0],
+            y: [0, 12, 0],
+            rotate: [360, 180, 0],
+          }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 3,
+          }}
+        />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ 
-            duration: 0.4,
+            duration: 0.5,
             ease: "easeOut"
           }}
           viewport={{ once: true }}
           className="text-center mb-12 md:mb-16"
         >
-          <div className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 rounded-full border border-purple-200 mb-6 md:mb-8 shadow-lg">
-            <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+          <motion.div
+            className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 rounded-full border border-purple-200 mb-6 md:mb-8 shadow-lg"
+            whileHover={{ 
+              scale: 1.05,
+              boxShadow: "0 10px 25px rgba(147, 51, 234, 0.15)"
+            }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            >
+              <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+            </motion.div>
             <span className="text-xs md:text-sm font-medium text-purple-600">Explore Categories</span>
-          </div>
+            <motion.div
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 2.5, 
+                repeat: Infinity, 
+                ease: "easeInOut"
+              }}
+            >
+              <Zap className="h-4 w-4 md:h-5 md:w-5 text-yellow-500" />
+            </motion.div>
+          </motion.div>
           
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6">
             Project Categories
@@ -255,14 +349,25 @@ const Projects = () => {
               variants={itemVariants}
               className="group relative"
             >
-              <div className="bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 h-full">
+              <motion.div
+                className="bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 h-full"
+                variants={cardHoverVariants}
+                whileHover="hover"
+              >
                 <div className={`h-2 md:h-3 bg-gradient-to-r ${category.color}`}></div>
                 <div className={`p-6 md:p-8 bg-gradient-to-br ${category.bgColor} relative overflow-hidden`}>
                   <div className="relative z-10">
                     <div className="flex items-center space-x-3 md:space-x-4 mb-4 md:mb-6">
-                      <div className="flex-shrink-0 p-3 md:p-4 bg-white rounded-xl md:rounded-2xl shadow-lg">
+                      <motion.div
+                        className="flex-shrink-0 p-3 md:p-4 bg-white rounded-xl md:rounded-2xl shadow-lg"
+                        whileHover={{ 
+                          rotate: 10,
+                          scale: 1.05
+                        }}
+                        transition={{ duration: 0.2 }}
+                      >
                         {category.icon}
-                      </div>
+                      </motion.div>
                       <div>
                         <h3 className="text-lg md:text-xl font-bold text-gray-900">
                           {category.title}
@@ -277,34 +382,47 @@ const Projects = () => {
                       {category.description}
                     </p>
                     
-                    <button 
+                    <motion.button 
                       onClick={() => handleViewProjects(category.id)}
                       className={`w-full bg-gradient-to-r ${category.color} text-white py-3 md:py-4 px-4 md:px-6 rounded-xl md:rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-sm md:text-lg active:scale-95`}
+                      whileHover={{ 
+                        scale: 1.02,
+                        boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)"
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.1 }}
                     >
                       View Projects
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ 
-            duration: 0.4,
+            duration: 0.5,
             delay: 0.2
           }}
           viewport={{ once: true }}
           className="mt-16 md:mt-20 text-center"
         >
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-10 border border-purple-200 shadow-xl">
+          <motion.div
+            className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-10 border border-purple-200 shadow-xl"
+            whileHover={{
+              scale: 1.02,
+              boxShadow: "0 25px 50px rgba(147, 51, 234, 0.1)"
+            }}
+            transition={{ duration: 0.2 }}
+          >
             <p className="text-gray-600 mb-6 md:mb-8 text-lg md:text-xl">
               Can't find what you're looking for? We create custom projects too!
             </p>
-            <a
+            <motion.a
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
@@ -324,14 +442,21 @@ const Projects = () => {
                 }, 100);
               }}
               className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl text-base md:text-lg active:scale-95"
+              whileHover={{ 
+                scale: 1.05,
+                y: -3,
+                boxShadow: "0 15px 35px rgba(59, 130, 246, 0.25)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
             >
               Request Custom Project
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </motion.div>
       </div>
 
-      {/* Fast Projects Modal */}
+      {/* Enhanced Projects Modal */}
       <AnimatePresence>
         {selectedCategory && (
           <motion.div
@@ -354,25 +479,46 @@ const Projects = () => {
                 <h3 className="text-xl md:text-2xl font-bold text-gray-900">
                   {categories.find(c => c.id === selectedCategory)?.title} Projects
                 </h3>
-                <button
+                <motion.button
                   onClick={closeModal}
                   className="p-2 md:p-3 hover:bg-gray-100 rounded-xl md:rounded-2xl transition-colors active:scale-95"
+                  whileHover={{ 
+                    scale: 1.1,
+                    backgroundColor: "rgba(243, 244, 246, 1)"
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ duration: 0.1 }}
                 >
                   <X className="h-5 w-5 md:h-6 md:w-6" />
-                </button>
+                </motion.button>
               </div>
               
               <div className="p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-120px)]">
                 {loading ? (
                   <div className="flex items-center justify-center py-20">
-                    <div className="w-12 h-12 md:w-16 md:h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+                    <motion.div
+                      className="w-12 h-12 md:w-16 md:h-16 border-4 border-blue-200 border-t-blue-600 rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
                   </div>
                 ) : (
-                  <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid md:grid-cols-2 gap-6 md:gap-8"
+                  >
                     {projects.map((project) => (
-                      <div
+                      <motion.div
                         key={project.id}
+                        variants={itemVariants}
                         className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl md:rounded-2xl p-6 md:p-8 hover:shadow-lg transition-shadow duration-300 border border-gray-200"
+                        whileHover={{
+                          scale: 1.02,
+                          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
+                        }}
+                        transition={{ duration: 0.2 }}
                       >
                         <div className="flex items-start justify-between mb-4 md:mb-6">
                           <h4 className="text-base md:text-lg font-semibold text-gray-900 flex-1 leading-tight pr-2">
@@ -411,17 +557,23 @@ const Projects = () => {
                               {project.price}
                             </span>
                           </div>
-                          <button
+                          <motion.button
                             onClick={handleGetProject}
                             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl text-sm font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center space-x-2 shadow-lg active:scale-95"
+                            whileHover={{ 
+                              scale: 1.05,
+                              boxShadow: "0 8px 20px rgba(59, 130, 246, 0.25)"
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 0.1 }}
                           >
                             <span>Get Project</span>
                             <ExternalLink className="h-3 w-3 md:h-4 md:w-4" />
-                          </button>
+                          </motion.button>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 )}
                 
                 {!loading && projects.length === 0 && (

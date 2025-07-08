@@ -1,58 +1,100 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Users, Award, Sparkles, Zap } from 'lucide-react';
+import { trackButtonClick } from '../utils/analytics';
 
 const Hero = () => {
-  const trackButtonClick = (buttonName, section) => {
-    console.log(`Button clicked: ${buttonName} in ${section}`);
-  };
-
-  // Minimal floating elements for better performance
-  const floatingElements = Array.from({ length: 4 }, (_, i) => (
+  // Optimized floating elements with beautiful animations
+  const floatingElements = Array.from({ length: 6 }, (_, i) => (
     <div
       key={i}
-      className="absolute w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-10 hidden md:block"
+      className="absolute w-2 h-2 md:w-3 md:h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20"
       style={{
-        left: `${15 + i * 20}%`,
-        top: `${25 + i * 15}%`,
-        animation: `float-${i} ${8 + i * 2}s ease-in-out infinite`
+        left: `${10 + i * 15}%`,
+        top: `${20 + i * 12}%`,
+        animation: `float-${i} ${6 + i * 1.5}s ease-in-out infinite`
       }}
     />
   ));
 
-  // Fast, simple animations
+  // Enhanced but fast animations
   const fadeInVariants = {
-    initial: { opacity: 0, y: 20 },
+    initial: { opacity: 0, y: 30, scale: 0.95 },
     animate: { 
       opacity: 1, 
       y: 0,
+      scale: 1,
       transition: {
-        duration: 0.4,
+        duration: 0.5,
         ease: "easeOut"
       }
     }
   };
 
   const staggerVariants = {
-    initial: { opacity: 0, y: 15 },
+    initial: { opacity: 0, y: 25, scale: 0.9 },
     animate: (delay) => ({ 
       opacity: 1, 
       y: 0,
+      scale: 1,
       transition: {
-        duration: 0.3,
+        duration: 0.4,
         ease: "easeOut",
-        delay: delay * 0.1
+        delay: delay * 0.15
       }
     })
   };
 
+  const buttonHoverVariants = {
+    hover: {
+      scale: 1.05,
+      y: -3,
+      boxShadow: "0 15px 35px rgba(59, 130, 246, 0.25)",
+      transition: {
+        duration: 0.2,
+        ease: "easeOut"
+      }
+    },
+    tap: { 
+      scale: 0.95,
+      transition: { duration: 0.1 }
+    }
+  };
+
   return (
     <section id="home" className="relative min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-20 overflow-hidden">
-      {/* Simplified background elements */}
+      {/* Enhanced floating background */}
       <div className="absolute inset-0">
         {floatingElements}
-        <div className="absolute top-20 right-20 w-24 h-24 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full opacity-5 hidden md:block" />
-        <div className="absolute bottom-20 left-20 w-20 h-20 bg-gradient-to-r from-blue-300 to-cyan-300 rounded-full opacity-5 hidden md:block" />
+        <motion.div
+          className="absolute top-20 right-20 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full opacity-10"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, -15, 0],
+            y: [0, 10, 0],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 left-20 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-blue-300 to-cyan-300 rounded-full opacity-10"
+          animate={{
+            scale: [1, 0.8, 1],
+            x: [0, 20, 0],
+            y: [0, -15, 0],
+            rotate: [360, 180, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,11 +105,35 @@ const Hero = () => {
             animate="animate"
             className="mb-6"
           >
-            <div className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full border border-purple-200 mb-8 shadow-lg">
-              <Sparkles className="h-5 w-5 text-purple-600" />
+            <motion.div
+              className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full border border-purple-200 mb-8 shadow-lg"
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 10px 25px rgba(147, 51, 234, 0.15)"
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="h-5 w-5 text-purple-600" />
+              </motion.div>
               <span className="text-sm font-medium text-purple-600">Premium Student Projects</span>
-              <Zap className="h-5 w-5 text-yellow-500" />
-            </div>
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 180, 360]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  ease: "easeInOut"
+                }}
+              >
+                <Zap className="h-5 w-5 text-yellow-500" />
+              </motion.div>
+            </motion.div>
           </motion.div>
 
           <motion.h1
@@ -78,9 +144,19 @@ const Hero = () => {
             className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6"
           >
             Premium Student
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent block">
+            <motion.span
+              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent block"
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            >
               Projects
-            </span>
+            </motion.span>
           </motion.h1>
 
           <motion.p
@@ -101,21 +177,32 @@ const Hero = () => {
             custom={3}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
           >
-            <a
+            <motion.a
               href="#projects"
               onClick={() => trackButtonClick('Browse Projects', 'Hero')}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center space-x-3 group shadow-xl active:scale-95"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center space-x-3 group shadow-xl"
+              variants={buttonHoverVariants}
+              whileHover="hover"
+              whileTap="tap"
             >
               <span>Browse Projects</span>
-              <ArrowRight className="h-6 w-6" />
-            </a>
-            <a
+              <motion.div
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ArrowRight className="h-6 w-6" />
+              </motion.div>
+            </motion.a>
+            <motion.a
               href="#contact"
               onClick={() => trackButtonClick('Get Custom Project', 'Hero')}
-              className="border-2 border-blue-600 text-blue-600 px-10 py-5 rounded-2xl font-semibold text-lg hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-95"
+              className="border-2 border-blue-600 text-blue-600 px-10 py-5 rounded-2xl font-semibold text-lg hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-xl hover:shadow-2xl"
+              variants={buttonHoverVariants}
+              whileHover="hover"
+              whileTap="tap"
             >
               Get Custom Project
-            </a>
+            </motion.a>
           </motion.div>
           
           <motion.div
@@ -130,15 +217,33 @@ const Hero = () => {
               { icon: Users, text: "1000+ Students", color: "text-green-500", bgColor: "bg-green-100" },
               { icon: Award, text: "100% Success Rate", color: "text-purple-500", bgColor: "bg-purple-100" }
             ].map((item, index) => (
-              <div
+              <motion.div
                 key={index}
                 className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-lg border border-gray-100"
+                whileHover={{
+                  scale: 1.05,
+                  y: -5,
+                  boxShadow: "0 15px 30px rgba(0, 0, 0, 0.1)"
+                }}
+                transition={{ duration: 0.2 }}
               >
-                <div className={`p-2 rounded-xl ${item.bgColor}`}>
+                <motion.div
+                  className={`p-2 rounded-xl ${item.bgColor}`}
+                  animate={{ 
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity, 
+                    ease: "easeInOut",
+                    delay: index * 0.5
+                  }}
+                >
                   <item.icon className={`h-6 w-6 ${item.color}`} />
-                </div>
+                </motion.div>
                 <span className="font-semibold text-gray-800">{item.text}</span>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>
@@ -147,20 +252,28 @@ const Hero = () => {
       {/* CSS animations for floating elements */}
       <style jsx>{`
         @keyframes float-0 {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          50% { transform: translateY(-20px) translateX(10px); }
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+          50% { transform: translateY(-25px) translateX(15px) scale(1.2); }
         }
         @keyframes float-1 {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          50% { transform: translateY(-15px) translateX(-8px); }
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+          50% { transform: translateY(-20px) translateX(-12px) scale(1.1); }
         }
         @keyframes float-2 {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          50% { transform: translateY(-25px) translateX(12px); }
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+          50% { transform: translateY(-30px) translateX(18px) scale(1.3); }
         }
         @keyframes float-3 {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          50% { transform: translateY(-18px) translateX(-10px); }
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+          50% { transform: translateY(-22px) translateX(-15px) scale(1.15); }
+        }
+        @keyframes float-4 {
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+          50% { transform: translateY(-28px) translateX(20px) scale(1.25); }
+        }
+        @keyframes float-5 {
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+          50% { transform: translateY(-18px) translateX(-8px) scale(1.05); }
         }
       `}</style>
     </section>

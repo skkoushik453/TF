@@ -4,6 +4,30 @@ import { CheckCircle, Target, Users, Zap } from 'lucide-react';
 import { trackButtonClick } from '../utils/analytics';
 
 const About = () => {
+  // Optimized floating particles - fewer elements, smoother animations
+  const floatingParticles = Array.from({ length: 6 }, (_, i) => (
+    <motion.div
+      key={i}
+      className="absolute w-2 h-2 md:w-3 md:h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20"
+      animate={{
+        x: [0, 40 + i * 10, 0],
+        y: [0, -30 - i * 8, 0],
+        scale: [1, 1.2, 1],
+        rotate: [0, 180, 360],
+      }}
+      transition={{
+        duration: 8 + i * 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: i * 0.5,
+      }}
+      style={{
+        left: `${10 + i * 15}%`,
+        top: `${20 + i * 12}%`,
+      }}
+    />
+  ));
+
   const features = [
     {
       icon: <CheckCircle className="h-8 w-8 text-green-500" />,
@@ -57,10 +81,56 @@ const About = () => {
 
   return (
     <section id="about" className="py-20 bg-white relative overflow-hidden">
-      {/* Minimal background elements - only for desktop */}
-      <div className="absolute inset-0 hidden md:block">
-        <div className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full opacity-10" />
-        <div className="absolute bottom-10 right-10 w-16 h-16 bg-gradient-to-r from-pink-200 to-yellow-200 rounded-full opacity-10" />
+      {/* Enhanced floating background with optimized particles */}
+      <div className="absolute inset-0">
+        {/* Floating particles */}
+        {floatingParticles}
+        
+        {/* Larger floating elements */}
+        <motion.div
+          className="absolute top-10 left-10 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full opacity-15"
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, 25, 0],
+            y: [0, -15, 0],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-10 right-10 w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-pink-200 to-yellow-200 rounded-full opacity-15"
+          animate={{
+            scale: [1, 0.7, 1],
+            x: [0, -20, 0],
+            y: [0, 10, 0],
+            rotate: [360, 180, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/3 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-green-200 to-blue-200 rounded-full opacity-12"
+          animate={{
+            scale: [1, 1.4, 1],
+            x: [0, 35, 0],
+            y: [0, -25, 0],
+            rotate: [0, -180, -360],
+          }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 4,
+          }}
+        />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

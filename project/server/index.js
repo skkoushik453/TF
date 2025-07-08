@@ -33,7 +33,7 @@ let transporter = null;
 
 // More robust email configuration
 const emailUser = process.env.EMAIL_USER || 'techforge81@gmail.com';
-const emailPass = process.env.EMAIL_PASS || 'yjnudx1fjfuoxpdm';
+const emailPass = process.env.EMAIL_PASS || 'swahwhhihxtdejyd
 
 if (emailUser && emailPass) {
   transporter = nodemailer.createTransport({

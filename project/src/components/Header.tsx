@@ -18,7 +18,32 @@ const Header = () => {
   const handleNavClick = (item: string) => {
     trackNavigation(item.toLowerCase());
     setIsMenuOpen(false);
+    
+    // Smooth scroll to section
+    const sectionId = item.toLowerCase();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
+
+  const handleDesktopNavClick = (item: string) => {
+    trackNavigation(item.toLowerCase());
+    
+    // Smooth scroll to section for desktop too
+    const sectionId = item.toLowerCase();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   const headerVariants = {
     initial: { y: -100, opacity: 0 },
     animate: { 
@@ -182,11 +207,10 @@ const Header = () => {
           
           <nav className="hidden md:flex space-x-8">
             {['Home', 'About', 'Projects', 'Contact'].map((item, index) => (
-              <motion.a
+              <motion.button
                 key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={() => trackNavigation(item.toLowerCase())}
-                className="relative text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                onClick={() => handleDesktopNavClick(item)}
+                className="relative text-gray-700 hover:text-blue-600 transition-colors font-medium bg-transparent border-none cursor-pointer"
                 variants={navItemVariants}
                 initial="initial"
                 animate="animate"
@@ -200,7 +224,7 @@ const Header = () => {
                   initial="initial"
                   whileHover="hover"
                 />
-              </motion.a>
+              </motion.button>
             ))}
           </nav>
 
@@ -248,11 +272,10 @@ const Header = () => {
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-xl border-t border-purple-100">
               {['Home', 'About', 'Projects', 'Contact'].map((item, index) => (
-                <motion.a
+                <motion.button
                   key={item}
-                  href={`#${item.toLowerCase()}`}
                   onClick={() => handleNavClick(item)}
-                  className="block px-3 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300"
+                  className="block w-full text-left px-3 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 bg-transparent border-none cursor-pointer"
                   variants={mobileItemVariants}
                   whileHover={{ 
                     x: 10,
@@ -261,7 +284,7 @@ const Header = () => {
                   whileTap={{ scale: 0.98 }}
                 >
                   {item}
-                </motion.a>
+                </motion.button>
               ))}
             </div>
           </motion.div>

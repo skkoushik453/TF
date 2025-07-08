@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Brain, Globe, Layers, Smartphone, Database, Shield, X, ExternalLink, Code, IndianRupee, Clock, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Brain, Globe, Layers, Smartphone, Database, Shield, X, ExternalLink, Code, IndianRupee, Sparkles } from 'lucide-react';
 import { trackProjectView, trackButtonClick } from '../utils/analytics';
 
 interface Project {
@@ -16,18 +16,6 @@ const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const categories = [
     {
@@ -89,11 +77,43 @@ const Projects = () => {
   const fetchProjects = async (categoryId: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/projects/${categoryId}`);
-      const data = await response.json();
-      if (data.success) {
-        setProjects(data.projects);
-      }
+      // Simulate API call with mock data
+      await new Promise(resolve => setTimeout(resolve, 800));
+      const mockProjects = [
+        {
+          id: 1,
+          title: "Advanced Machine Learning Model",
+          description: "Complete ML project with data preprocessing, model training, and evaluation",
+          technologies: ["Python", "TensorFlow", "Pandas", "Scikit-learn"],
+          difficulty: "Advanced",
+          price: "₹1500"
+        },
+        {
+          id: 2,
+          title: "Computer Vision Application",
+          description: "Image recognition system using deep learning techniques",
+          technologies: ["Python", "OpenCV", "PyTorch", "NumPy"],
+          difficulty: "Expert",
+          price: "₹2000"
+        },
+        {
+          id: 3,
+          title: "Natural Language Processing",
+          description: "Text analysis and sentiment classification project",
+          technologies: ["Python", "NLTK", "spaCy", "Transformers"],
+          difficulty: "Intermediate",
+          price: "₹1200"
+        },
+        {
+          id: 4,
+          title: "Data Analytics Dashboard",
+          description: "Interactive dashboard for data visualization and analysis",
+          technologies: ["Python", "Streamlit", "Plotly", "Pandas"],
+          difficulty: "Beginner",
+          price: "₹800"
+        }
+      ];
+      setProjects(mockProjects);
     } catch (error) {
       console.error('Error fetching projects:', error);
     } finally {
@@ -116,45 +136,18 @@ const Projects = () => {
     trackButtonClick('Get Project', 'Projects Modal');
     closeModal();
     
-    // Add a small delay to ensure modal is closed before scrolling
     setTimeout(() => {
       const contactSection = document.getElementById('contact');
       if (contactSection) {
-        // Calculate the offset to account for any fixed headers
-        const headerHeight = 80; // Adjust this value based on your header height
+        const headerHeight = 80;
         const elementPosition = contactSection.offsetTop - headerHeight;
         
-        // Smooth scroll to the contact section
         window.scrollTo({
           top: elementPosition,
           behavior: 'smooth'
         });
-      } else {
-        console.warn('Contact section not found');
-        // Fallback: try to find contact section by class or other selectors
-        const contactByClass = document.querySelector('.contact-section') || 
-                              document.querySelector('[data-section="contact"]') ||
-                              document.querySelector('#contact-form');
-        
-        if (contactByClass) {
-          contactByClass.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest'
-          });
-        } else {
-          // Last resort: scroll to a reasonable position (not footer)
-          const pageHeight = document.body.scrollHeight;
-          const windowHeight = window.innerHeight;
-          const scrollPosition = Math.max(0, pageHeight - windowHeight * 1.5);
-          
-          window.scrollTo({
-            top: scrollPosition,
-            behavior: 'smooth'
-          });
-        }
       }
-    }, 300); // 300ms delay to ensure modal closing animation completes
+    }, 300);
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -167,38 +160,25 @@ const Projects = () => {
     }
   };
 
-  // Simplified animations for mobile
+  // Fast, simple animations
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: isMobile ? 0.05 : 0.08,
+        staggerChildren: 0.05,
         delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: isMobile ? 20 : 50 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: isMobile ? 0.3 : 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  // Simplified hover effects for mobile
-  const cardHoverVariants = {
-    hover: isMobile ? {} : {
-      y: -10,
-      scale: 1.02,
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-      transition: {
-        duration: 0.2,
+        duration: 0.3,
         ease: "easeOut"
       }
     }
@@ -207,22 +187,22 @@ const Projects = () => {
   const modalVariants = {
     hidden: { 
       opacity: 0,
-      scale: isMobile ? 0.95 : 0.8,
-      y: isMobile ? 20 : 100
+      scale: 0.95,
+      y: 20
     },
     visible: { 
       opacity: 1,
       scale: 1,
       y: 0,
       transition: {
-        duration: isMobile ? 0.25 : 0.4,
+        duration: 0.25,
         ease: "easeOut"
       }
     },
     exit: { 
       opacity: 0,
-      scale: isMobile ? 0.95 : 0.8,
-      y: isMobile ? 20 : 100,
+      scale: 0.95,
+      y: 20,
       transition: {
         duration: 0.2,
         ease: "easeOut"
@@ -232,24 +212,10 @@ const Projects = () => {
 
   return (
     <section id="projects" className="py-16 md:py-20 bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      {/* Simplified background elements for mobile */}
-      {!isMobile && !shouldReduceMotion && (
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full opacity-10"
-            animate={{
-              scale: [1, 1.2, 1],
-              x: [0, 30, 0],
-              y: [0, -20, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </div>
-      )}
+      {/* Minimal background for mobile performance */}
+      <div className="absolute inset-0 hidden md:block">
+        <div className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full opacity-5" />
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -262,38 +228,18 @@ const Projects = () => {
           viewport={{ once: true }}
           className="text-center mb-12 md:mb-16"
         >
-          <motion.div
-            className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 rounded-full border border-purple-200 mb-6 md:mb-8 shadow-lg"
-            whileHover={!isMobile ? { 
-              scale: 1.05,
-              boxShadow: "0 10px 30px rgba(147, 51, 234, 0.2)"
-            } : {}}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            <motion.div
-              animate={!shouldReduceMotion ? { rotate: 360 } : {}}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
-            </motion.div>
+          <div className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 rounded-full border border-purple-200 mb-6 md:mb-8 shadow-lg">
+            <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
             <span className="text-xs md:text-sm font-medium text-purple-600">Explore Categories</span>
-          </motion.div>
+          </div>
           
-          <motion.h2 
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6"
-          >
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6">
             Project Categories
-          </motion.h2>
+          </h2>
           
-          <motion.p 
-            className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.3, ease: "easeOut" }}
-            viewport={{ once: true }}
-          >
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             Explore our comprehensive collection of projects across different technologies and domains
-          </motion.p>
+          </p>
         </motion.div>
 
         <motion.div
@@ -309,26 +255,14 @@ const Projects = () => {
               variants={itemVariants}
               className="group relative"
             >
-              <motion.div
-                className="bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 h-full"
-                variants={cardHoverVariants}
-                whileHover="hover"
-              >
+              <div className="bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 h-full">
                 <div className={`h-2 md:h-3 bg-gradient-to-r ${category.color}`}></div>
                 <div className={`p-6 md:p-8 bg-gradient-to-br ${category.bgColor} relative overflow-hidden`}>
-                  
                   <div className="relative z-10">
                     <div className="flex items-center space-x-3 md:space-x-4 mb-4 md:mb-6">
-                      <motion.div
-                        className="flex-shrink-0 p-3 md:p-4 bg-white rounded-xl md:rounded-2xl shadow-lg"
-                        whileHover={!isMobile ? { 
-                          rotate: 15,
-                          scale: 1.05
-                        } : {}}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                      >
+                      <div className="flex-shrink-0 p-3 md:p-4 bg-white rounded-xl md:rounded-2xl shadow-lg">
                         {category.icon}
-                      </motion.div>
+                      </div>
                       <div>
                         <h3 className="text-lg md:text-xl font-bold text-gray-900">
                           {category.title}
@@ -345,14 +279,13 @@ const Projects = () => {
                     
                     <button 
                       onClick={() => handleViewProjects(category.id)}
-                      onMouseEnter={() => trackButtonClick(`View ${category.title}`, 'Projects Category Hover')}
                       className={`w-full bg-gradient-to-r ${category.color} text-white py-3 md:py-4 px-4 md:px-6 rounded-xl md:rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-sm md:text-lg active:scale-95`}
                     >
                       View Projects
                     </button>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -377,7 +310,6 @@ const Projects = () => {
                 e.preventDefault();
                 trackButtonClick('Request Custom Project', 'Projects');
                 
-                // Enhanced scroll to contact for the custom project button
                 setTimeout(() => {
                   const contactSection = document.getElementById('contact');
                   if (contactSection) {
@@ -399,7 +331,7 @@ const Projects = () => {
         </motion.div>
       </div>
 
-      {/* Optimized Projects Modal */}
+      {/* Fast Projects Modal */}
       <AnimatePresence>
         {selectedCategory && (
           <motion.div
@@ -433,23 +365,13 @@ const Projects = () => {
               <div className="p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-120px)]">
                 {loading ? (
                   <div className="flex items-center justify-center py-20">
-                    <motion.div
-                      className="w-12 h-12 md:w-16 md:h-16 border-4 border-blue-200 border-t-blue-600 rounded-full"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    />
+                    <div className="w-12 h-12 md:w-16 md:h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
                   </div>
                 ) : (
-                  <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="grid md:grid-cols-2 gap-6 md:gap-8"
-                  >
+                  <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                     {projects.map((project) => (
-                      <motion.div
+                      <div
                         key={project.id}
-                        variants={itemVariants}
                         className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl md:rounded-2xl p-6 md:p-8 hover:shadow-lg transition-shadow duration-300 border border-gray-200"
                       >
                         <div className="flex items-start justify-between mb-4 md:mb-6">
@@ -497,9 +419,9 @@ const Projects = () => {
                             <ExternalLink className="h-3 w-3 md:h-4 md:w-4" />
                           </button>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 )}
                 
                 {!loading && projects.length === 0 && (

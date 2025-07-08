@@ -3,14 +3,13 @@ services:
     name: techforge-frontend
     env: node
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm run server
+    buildCommand: npm install && cd server && npm install
+    startCommand: npm run start
     envVars:
       - key: NODE_ENV
         value: production
       - key: VITE_GA_MEASUREMENT_ID
         value: G-RE8FYB41FC
       - key: EMAIL_USER
-        sync: false
+        value: techforge81@gmail.com
       - key: EMAIL_PASS
-        sync: false

@@ -1,24 +1,29 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Users, Award, Sparkles, Zap } from 'lucide-react';
-import { trackButtonClick } from '../utils/analytics';
 
 const Hero = () => {
+  // Simple analytics tracking function (replace with your actual implementation)
+  const trackButtonClick = (buttonName, section) => {
+    console.log(`Button clicked: ${buttonName} in ${section}`);
+    // Add your analytics implementation here
+  };
+
   const floatingElements = Array.from({ length: 8 }, (_, i) => (
     <motion.div
       key={i}
       className="absolute w-4 h-4 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20"
       animate={{
-        x: [0, 100 + i * 20, 0],
-        y: [0, -100 - i * 15, 0],
+        x: [0, 80 + i * 15, 0], // Reduced movement for better performance
+        y: [0, -80 - i * 10, 0], // Reduced movement for better performance
         rotate: [0, 360],
-        scale: [1, 1.5, 1],
+        scale: [1, 1.3, 1], // Reduced scale for better performance
       }}
       transition={{
-        duration: 8 + i * 1.5,  // Reduced duration from 12 + i*2
+        duration: 15 + i * 2, // Slower animations for better performance
         repeat: Infinity,
         ease: "easeInOut",
-        delay: i * 0.4          // Reduced delay from i * 0.8
+        delay: i * 0.8,
       }}
       style={{
         left: `${10 + i * 12}%`,
@@ -28,83 +33,83 @@ const Hero = () => {
   ));
 
   const titleVariants = {
-    initial: { opacity: 0, y: 50 },
+    initial: { opacity: 0, y: 30 }, // Reduced from 50
     animate: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5,       // Reduced from 0.8
+        duration: 0.6, // Reduced from 0.8
         ease: "easeOut"
       }
     }
   };
 
   const subtitleVariants = {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 20 }, // Reduced from 30
     animate: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.4,      // Reduced from 0.6
+        duration: 0.5, // Reduced from 0.6
         ease: "easeOut",
-        delay: 0.1          // Reduced from 0.2
+        delay: 0.15 // Reduced from 0.2
       }
     }
   };
 
   const buttonVariants = {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 20 }, // Reduced from 30
     animate: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.35,     // Reduced from 0.5
+        duration: 0.4, // Reduced from 0.5
         ease: "easeOut",
-        delay: 0.2          // Reduced from 0.4
+        delay: 0.3 // Reduced from 0.4
       }
     },
     hover: {
-      scale: 1.05,
-      y: -3,
-      boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
+      scale: 1.03, // Reduced from 1.05
+      y: -2, // Reduced from -3
+      boxShadow: "0 15px 35px rgba(59, 130, 246, 0.25)", // Reduced shadow
       transition: {
-        duration: 0.15,    // Reduced from 0.2
+        duration: 0.2,
         ease: "easeOut"
       }
     },
     tap: { 
-      scale: 0.95,
+      scale: 0.97, // Reduced from 0.95
       transition: { duration: 0.1, ease: "easeInOut" }
     }
   };
 
   const statsVariants = {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 20 }, // Reduced from 30
     animate: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5,      // Reduced from 0.6
+        duration: 0.5, // Reduced from 0.6
         ease: "easeOut",
-        delay: 0.3,         // Reduced from 0.6
+        delay: 0.45, // Reduced from 0.6
         staggerChildren: 0.1 // Reduced from 0.2
       }
     }
   };
 
   const statItemVariants = {
-    initial: { opacity: 0, scale: 0.8 },
+    initial: { opacity: 0, scale: 0.9 }, // Reduced from 0.8
     animate: { 
       opacity: 1, 
       scale: 1,
       transition: {
-        duration: 0.3,      // Reduced from 0.4
+        duration: 0.3, // Reduced from 0.4
         ease: "easeOut"
       }
     },
     hover: {
-      scale: 1.15,
-      y: -5,
+      scale: 1.08, // Reduced from 1.15
+      y: -3, // Reduced from -5
       transition: {
         duration: 0.2,
         ease: "easeOut"
@@ -114,50 +119,50 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-20 overflow-hidden">
-      {/* Animated Background */}
+      {/* Enhanced Animated Background Elements */}
       <div className="absolute inset-0">
         {floatingElements}
         <motion.div
-          className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full opacity-10"
+          className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full opacity-8" // Reduced opacity
           animate={{
-            scale: [1, 1.3, 1],
+            scale: [1, 1.2, 1], // Reduced from 1.3
             rotate: [0, 180, 360],
-            x: [0, 50, 0],
-            y: [0, -30, 0],
+            x: [0, 40, 0], // Reduced from 50
+            y: [0, -25, 0], // Reduced from -30
           }}
           transition={{
-            duration: 8,          // Reduced from 10
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-r from-blue-300 to-cyan-300 rounded-full opacity-10"
-          animate={{
-            scale: [1, 0.7, 1],
-            rotate: [360, 180, 0],
-            x: [0, -40, 0],
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 6,          // Reduced from 8
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-yellow-300 to-orange-300 rounded-full opacity-10"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, -180, -360],
-            x: [0, 60, 0],
-            y: [0, -40, 0],
-          }}
-          transition={{
-            duration: 8,          // Reduced from 12
+            duration: 12, // Increased from 10
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 1.2            // Reduced from 2
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-r from-blue-300 to-cyan-300 rounded-full opacity-8" // Reduced opacity
+          animate={{
+            scale: [1, 0.8, 1], // Reduced range
+            rotate: [360, 180, 0],
+            x: [0, -35, 0], // Reduced from -40
+            y: [0, 15, 0], // Reduced from 20
+          }}
+          transition={{
+            duration: 10, // Increased from 8
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-yellow-300 to-orange-300 rounded-full opacity-8" // Reduced opacity
+          animate={{
+            scale: [1, 1.1, 1], // Reduced from 1.2
+            rotate: [0, -180, -360],
+            x: [0, 50, 0], // Reduced from 60
+            y: [0, -35, 0], // Reduced from -40
+          }}
+          transition={{
+            duration: 15, // Increased from 12
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
           }}
         />
       </div>
@@ -173,28 +178,28 @@ const Hero = () => {
             <motion.div
               className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full border border-purple-200 mb-8 shadow-lg"
               whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 10px 30px rgba(147, 51, 234, 0.2)"
+                scale: 1.03, // Reduced from 1.05
+                boxShadow: "0 8px 25px rgba(147, 51, 234, 0.18)" // Reduced shadow
               }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }} // Adjusted values
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}  {/* Faster rotation */}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }} // Increased from 3
               >
                 <Sparkles className="h-5 w-5 text-purple-600" />
               </motion.div>
               <span className="text-sm font-medium text-purple-600">Premium Student Projects</span>
               <motion.div
                 animate={{ 
-                  scale: [1, 1.2, 1],
+                  scale: [1, 1.15, 1], // Reduced from 1.2
                   rotate: [0, 180, 360]
                 }}
                 transition={{ 
-                  duration: 1.5,            // Reduced from 2
+                  duration: 2.5, // Increased from 2
                   repeat: Infinity, 
                   ease: "easeInOut",
-                  delay: 0.25               // Reduced from 0.5
+                  delay: 0.5
                 }}
               >
                 <Zap className="h-5 w-5 text-yellow-500" />
@@ -215,7 +220,7 @@ const Hero = () => {
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }}
               transition={{
-                duration: 3,           // Reduced from 4
+                duration: 5, // Increased from 4
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -250,8 +255,8 @@ const Hero = () => {
             >
               <span>Browse Projects</span>
               <motion.div
-                animate={{ x: [0, 8, 0] }}
-                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }} {/* Faster */}
+                animate={{ x: [0, 6, 0] }} // Reduced from 8
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }} // Increased duration
               >
                 <ArrowRight className="h-6 w-6" />
               </motion.div>
@@ -288,14 +293,14 @@ const Hero = () => {
                 <motion.div
                   className={`p-2 rounded-xl ${item.bgColor}`}
                   animate={{ 
-                    rotate: [0, 15, -15, 0],
-                    scale: [1, 1.1, 1]
+                    rotate: [0, 12, -12, 0], // Reduced from 15, -15
+                    scale: [1, 1.08, 1] // Reduced from 1.1
                   }}
                   transition={{ 
-                    duration: 2,        // Reduced from 3
+                    duration: 3.5, // Increased from 3
                     repeat: Infinity, 
                     ease: "easeInOut",
-                    delay: index * 0.4 // Reduced from 0.8
+                    delay: index * 0.8
                   }}
                 >
                   <item.icon className={`h-6 w-6 ${item.color}`} />

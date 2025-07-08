@@ -3,236 +3,91 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Star, Users, Award, Sparkles, Zap } from 'lucide-react';
 
 const Hero = () => {
-  // Simple analytics tracking function (replace with your actual implementation)
   const trackButtonClick = (buttonName, section) => {
     console.log(`Button clicked: ${buttonName} in ${section}`);
-    // Add your analytics implementation here
   };
 
-  const floatingElements = Array.from({ length: 8 }, (_, i) => (
-    <motion.div
+  // Minimal floating elements for better performance
+  const floatingElements = Array.from({ length: 4 }, (_, i) => (
+    <div
       key={i}
-      className="absolute w-4 h-4 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20"
-      animate={{
-        x: [0, 80 + i * 15, 0], // Reduced movement for better performance
-        y: [0, -80 - i * 10, 0], // Reduced movement for better performance
-        rotate: [0, 360],
-        scale: [1, 1.3, 1], // Reduced scale for better performance
-      }}
-      transition={{
-        duration: 15 + i * 2, // Slower animations for better performance
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: i * 0.8,
-      }}
+      className="absolute w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-10 hidden md:block"
       style={{
-        left: `${10 + i * 12}%`,
-        top: `${20 + i * 8}%`,
+        left: `${15 + i * 20}%`,
+        top: `${25 + i * 15}%`,
+        animation: `float-${i} ${8 + i * 2}s ease-in-out infinite`
       }}
     />
   ));
 
-  const titleVariants = {
-    initial: { opacity: 0, y: 30 }, // Reduced from 50
+  // Fast, simple animations
+  const fadeInVariants = {
+    initial: { opacity: 0, y: 20 },
     animate: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.6, // Reduced from 0.8
+        duration: 0.4,
         ease: "easeOut"
       }
     }
   };
 
-  const subtitleVariants = {
-    initial: { opacity: 0, y: 20 }, // Reduced from 30
-    animate: { 
+  const staggerVariants = {
+    initial: { opacity: 0, y: 15 },
+    animate: (delay) => ({ 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5, // Reduced from 0.6
+        duration: 0.3,
         ease: "easeOut",
-        delay: 0.15 // Reduced from 0.2
+        delay: delay * 0.1
       }
-    }
-  };
-
-  const buttonVariants = {
-    initial: { opacity: 0, y: 20 }, // Reduced from 30
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.4, // Reduced from 0.5
-        ease: "easeOut",
-        delay: 0.3 // Reduced from 0.4
-      }
-    },
-    hover: {
-      scale: 1.03, // Reduced from 1.05
-      y: -2, // Reduced from -3
-      boxShadow: "0 15px 35px rgba(59, 130, 246, 0.25)", // Reduced shadow
-      transition: {
-        duration: 0.2,
-        ease: "easeOut"
-      }
-    },
-    tap: { 
-      scale: 0.97, // Reduced from 0.95
-      transition: { duration: 0.1, ease: "easeInOut" }
-    }
-  };
-
-  const statsVariants = {
-    initial: { opacity: 0, y: 20 }, // Reduced from 30
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.5, // Reduced from 0.6
-        ease: "easeOut",
-        delay: 0.45, // Reduced from 0.6
-        staggerChildren: 0.1 // Reduced from 0.2
-      }
-    }
-  };
-
-  const statItemVariants = {
-    initial: { opacity: 0, scale: 0.9 }, // Reduced from 0.8
-    animate: { 
-      opacity: 1, 
-      scale: 1,
-      transition: {
-        duration: 0.3, // Reduced from 0.4
-        ease: "easeOut"
-      }
-    },
-    hover: {
-      scale: 1.08, // Reduced from 1.15
-      y: -3, // Reduced from -5
-      transition: {
-        duration: 0.2,
-        ease: "easeOut"
-      }
-    }
+    })
   };
 
   return (
     <section id="home" className="relative min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-20 overflow-hidden">
-      {/* Enhanced Animated Background Elements */}
+      {/* Simplified background elements */}
       <div className="absolute inset-0">
         {floatingElements}
-        <motion.div
-          className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full opacity-8" // Reduced opacity
-          animate={{
-            scale: [1, 1.2, 1], // Reduced from 1.3
-            rotate: [0, 180, 360],
-            x: [0, 40, 0], // Reduced from 50
-            y: [0, -25, 0], // Reduced from -30
-          }}
-          transition={{
-            duration: 12, // Increased from 10
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-r from-blue-300 to-cyan-300 rounded-full opacity-8" // Reduced opacity
-          animate={{
-            scale: [1, 0.8, 1], // Reduced range
-            rotate: [360, 180, 0],
-            x: [0, -35, 0], // Reduced from -40
-            y: [0, 15, 0], // Reduced from 20
-          }}
-          transition={{
-            duration: 10, // Increased from 8
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-yellow-300 to-orange-300 rounded-full opacity-8" // Reduced opacity
-          animate={{
-            scale: [1, 1.1, 1], // Reduced from 1.2
-            rotate: [0, -180, -360],
-            x: [0, 50, 0], // Reduced from 60
-            y: [0, -35, 0], // Reduced from -40
-          }}
-          transition={{
-            duration: 15, // Increased from 12
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
+        <div className="absolute top-20 right-20 w-24 h-24 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full opacity-5 hidden md:block" />
+        <div className="absolute bottom-20 left-20 w-20 h-20 bg-gradient-to-r from-blue-300 to-cyan-300 rounded-full opacity-5 hidden md:block" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <motion.div
-            variants={titleVariants}
+            variants={fadeInVariants}
             initial="initial"
             animate="animate"
             className="mb-6"
           >
-            <motion.div
-              className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full border border-purple-200 mb-8 shadow-lg"
-              whileHover={{ 
-                scale: 1.03, // Reduced from 1.05
-                boxShadow: "0 8px 25px rgba(147, 51, 234, 0.18)" // Reduced shadow
-              }}
-              transition={{ type: "spring", stiffness: 300, damping: 15 }} // Adjusted values
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }} // Increased from 3
-              >
-                <Sparkles className="h-5 w-5 text-purple-600" />
-              </motion.div>
+            <div className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full border border-purple-200 mb-8 shadow-lg">
+              <Sparkles className="h-5 w-5 text-purple-600" />
               <span className="text-sm font-medium text-purple-600">Premium Student Projects</span>
-              <motion.div
-                animate={{ 
-                  scale: [1, 1.15, 1], // Reduced from 1.2
-                  rotate: [0, 180, 360]
-                }}
-                transition={{ 
-                  duration: 2.5, // Increased from 2
-                  repeat: Infinity, 
-                  ease: "easeInOut",
-                  delay: 0.5
-                }}
-              >
-                <Zap className="h-5 w-5 text-yellow-500" />
-              </motion.div>
-            </motion.div>
+              <Zap className="h-5 w-5 text-yellow-500" />
+            </div>
           </motion.div>
 
           <motion.h1
-            variants={titleVariants}
+            variants={staggerVariants}
             initial="initial"
             animate="animate"
+            custom={1}
             className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6"
           >
             Premium Student
-            <motion.span
-              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent block"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 5, // Increased from 4
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            >
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent block">
               Projects
-            </motion.span>
+            </span>
           </motion.h1>
 
           <motion.p
-            variants={subtitleVariants}
+            variants={staggerVariants}
             initial="initial"
             animate="animate"
+            custom={2}
             className="text-xl md:text-2xl text-gray-600 mb-10 max-w-4xl mx-auto leading-relaxed"
           >
             Get high-quality, production-ready projects for AI/ML, Web Development, Full-Stack, Mobile Apps, and more. 
@@ -240,43 +95,34 @@ const Hero = () => {
           </motion.p>
 
           <motion.div
-            variants={buttonVariants}
+            variants={staggerVariants}
             initial="initial"
             animate="animate"
+            custom={3}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
           >
-            <motion.a
+            <a
               href="#projects"
               onClick={() => trackButtonClick('Browse Projects', 'Hero')}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center space-x-3 group shadow-xl"
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center space-x-3 group shadow-xl active:scale-95"
             >
               <span>Browse Projects</span>
-              <motion.div
-                animate={{ x: [0, 6, 0] }} // Reduced from 8
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }} // Increased duration
-              >
-                <ArrowRight className="h-6 w-6" />
-              </motion.div>
-            </motion.a>
-            <motion.a
+              <ArrowRight className="h-6 w-6" />
+            </a>
+            <a
               href="#contact"
               onClick={() => trackButtonClick('Get Custom Project', 'Hero')}
-              className="border-2 border-blue-600 text-blue-600 px-10 py-5 rounded-2xl font-semibold text-lg hover:bg-blue-600 hover:text-white transition-all duration-500 shadow-xl hover:shadow-2xl"
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
+              className="border-2 border-blue-600 text-blue-600 px-10 py-5 rounded-2xl font-semibold text-lg hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-95"
             >
               Get Custom Project
-            </motion.a>
+            </a>
           </motion.div>
           
           <motion.div
-            variants={statsVariants}
+            variants={staggerVariants}
             initial="initial"
             animate="animate"
+            custom={4}
             className="flex flex-wrap justify-center gap-8 text-sm text-gray-600"
           >
             {[
@@ -284,33 +130,39 @@ const Hero = () => {
               { icon: Users, text: "1000+ Students", color: "text-green-500", bgColor: "bg-green-100" },
               { icon: Award, text: "100% Success Rate", color: "text-purple-500", bgColor: "bg-purple-100" }
             ].map((item, index) => (
-              <motion.div
+              <div
                 key={index}
                 className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-lg border border-gray-100"
-                variants={statItemVariants}
-                whileHover="hover"
               >
-                <motion.div
-                  className={`p-2 rounded-xl ${item.bgColor}`}
-                  animate={{ 
-                    rotate: [0, 12, -12, 0], // Reduced from 15, -15
-                    scale: [1, 1.08, 1] // Reduced from 1.1
-                  }}
-                  transition={{ 
-                    duration: 3.5, // Increased from 3
-                    repeat: Infinity, 
-                    ease: "easeInOut",
-                    delay: index * 0.8
-                  }}
-                >
+                <div className={`p-2 rounded-xl ${item.bgColor}`}>
                   <item.icon className={`h-6 w-6 ${item.color}`} />
-                </motion.div>
+                </div>
                 <span className="font-semibold text-gray-800">{item.text}</span>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
         </div>
       </div>
+
+      {/* CSS animations for floating elements */}
+      <style jsx>{`
+        @keyframes float-0 {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          50% { transform: translateY(-20px) translateX(10px); }
+        }
+        @keyframes float-1 {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          50% { transform: translateY(-15px) translateX(-8px); }
+        }
+        @keyframes float-2 {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          50% { transform: translateY(-25px) translateX(12px); }
+        }
+        @keyframes float-3 {
+          0%, 100% { transform: translateY(0px) translateX(0px); }
+          50% { transform: translateY(-18px) translateX(-10px); }
+        }
+      `}</style>
     </section>
   );
 };

@@ -132,7 +132,7 @@ const Contact = () => {
 
   if (isSubmitted) {
     return (
-      <section id="contact" className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 relative overflow-hidden">
         {/* Enhanced Background Elements */}
         <div className="absolute inset-0">
           <motion.div

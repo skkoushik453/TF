@@ -15,10 +15,10 @@ const Hero = () => {
         scale: [1, 1.5, 1],
       }}
       transition={{
-        duration: 12 + i * 2,
+        duration: 8 + i * 1.5,  // Reduced duration from 12 + i*2
         repeat: Infinity,
         ease: "easeInOut",
-        delay: i * 0.8,
+        delay: i * 0.4          // Reduced delay from i * 0.8
       }}
       style={{
         left: `${10 + i * 12}%`,
@@ -33,7 +33,7 @@ const Hero = () => {
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.5,       // Reduced from 0.8
         ease: "easeOut"
       }
     }
@@ -45,9 +45,9 @@ const Hero = () => {
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.4,      // Reduced from 0.6
         ease: "easeOut",
-        delay: 0.2
+        delay: 0.1          // Reduced from 0.2
       }
     }
   };
@@ -58,9 +58,9 @@ const Hero = () => {
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.35,     // Reduced from 0.5
         ease: "easeOut",
-        delay: 0.4
+        delay: 0.2          // Reduced from 0.4
       }
     },
     hover: {
@@ -68,7 +68,7 @@ const Hero = () => {
       y: -3,
       boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
       transition: {
-        duration: 0.2,
+        duration: 0.15,    // Reduced from 0.2
         ease: "easeOut"
       }
     },
@@ -84,10 +84,10 @@ const Hero = () => {
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.5,      // Reduced from 0.6
         ease: "easeOut",
-        delay: 0.6,
-        staggerChildren: 0.2
+        delay: 0.3,         // Reduced from 0.6
+        staggerChildren: 0.1 // Reduced from 0.2
       }
     }
   };
@@ -98,7 +98,7 @@ const Hero = () => {
       opacity: 1, 
       scale: 1,
       transition: {
-        duration: 0.4,
+        duration: 0.3,      // Reduced from 0.4
         ease: "easeOut"
       }
     },
@@ -114,7 +114,7 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-20 overflow-hidden">
-      {/* Enhanced Animated Background Elements */}
+      {/* Animated Background */}
       <div className="absolute inset-0">
         {floatingElements}
         <motion.div
@@ -126,9 +126,9 @@ const Hero = () => {
             y: [0, -30, 0],
           }}
           transition={{
-            duration: 10,
+            duration: 8,          // Reduced from 10
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut"
           }}
         />
         <motion.div
@@ -140,9 +140,9 @@ const Hero = () => {
             y: [0, 20, 0],
           }}
           transition={{
-            duration: 8,
+            duration: 6,          // Reduced from 8
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut"
           }}
         />
         <motion.div
@@ -154,10 +154,10 @@ const Hero = () => {
             y: [0, -40, 0],
           }}
           transition={{
-            duration: 12,
+            duration: 8,          // Reduced from 12
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2,
+            delay: 1.2            // Reduced from 2
           }}
         />
       </div>
@@ -180,7 +180,7 @@ const Hero = () => {
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}  {/* Faster rotation */}
               >
                 <Sparkles className="h-5 w-5 text-purple-600" />
               </motion.div>
@@ -191,10 +191,10 @@ const Hero = () => {
                   rotate: [0, 180, 360]
                 }}
                 transition={{ 
-                  duration: 2, 
+                  duration: 1.5,            // Reduced from 2
                   repeat: Infinity, 
                   ease: "easeInOut",
-                  delay: 0.5
+                  delay: 0.25               // Reduced from 0.5
                 }}
               >
                 <Zap className="h-5 w-5 text-yellow-500" />
@@ -215,7 +215,7 @@ const Hero = () => {
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }}
               transition={{
-                duration: 4,
+                duration: 3,           // Reduced from 4
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -251,7 +251,7 @@ const Hero = () => {
               <span>Browse Projects</span>
               <motion.div
                 animate={{ x: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }} {/* Faster */}
               >
                 <ArrowRight className="h-6 w-6" />
               </motion.div>
@@ -292,10 +292,10 @@ const Hero = () => {
                     scale: [1, 1.1, 1]
                   }}
                   transition={{ 
-                    duration: 3, 
+                    duration: 2,        // Reduced from 3
                     repeat: Infinity, 
                     ease: "easeInOut",
-                    delay: index * 0.8
+                    delay: index * 0.4 // Reduced from 0.8
                   }}
                 >
                   <item.icon className={`h-6 w-6 ${item.color}`} />

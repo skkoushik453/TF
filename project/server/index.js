@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files from the React app build
-const distPath = path.join(__dirname, '../dist');
+const distPath = path.join(process.cwd(), 'dist');
 app.use(express.static(distPath));
 
 // Create data directory if it doesn't exist
@@ -30,26 +30,37 @@ if (!fs.existsSync(dataDir)) {
 
 // Email configuration
 let transporter = null;
-if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+
+// More robust email configuration
+const emailUser = process.env.EMAIL_USER || 'techforge81@gmail.com';
+const emailPass = process.env.EMAIL_PASS || 'yjnudx1fjfuoxpdm';
+
+if (emailUser && emailPass) {
   transporter = nodemailer.createTransport({
     service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
+      user: emailUser,
+      pass: emailPass
     }
   });
   
   // Verify email configuration
   transporter.verify((error, success) => {
     if (error) {
-      console.log('❌ Email configuration error:', error.message);
-      console.log('💡 Please check your EMAIL_USER and EMAIL_PASS in .env file');
+      console.log('⚠️ Email configuration warning:', error.message);
+      console.log('📧 Contact form will still work, but emails may not send');
+      console.log('💡 To fix: Use Gmail App Password, not regular password');
+      // Don't fail the app, just disable email
+      transporter = null;
     } else {
       console.log('✅ Email server is ready to send messages');
     }
   });
 } else {
-  console.log('⚠️ Email not configured. Set EMAIL_USER and EMAIL_PASS in .env file');
+  console.log('⚠️ Email not configured. Contact form will work but no emails will be sent');
 }
 
 // Store inquiry data

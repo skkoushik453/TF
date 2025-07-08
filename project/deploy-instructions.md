@@ -14,7 +14,7 @@
    ```
    Name: techforge-platform
    Environment: Node
-   Build Command: npm install && npm run build
+   Build Command: npm install && cd server && npm install
    Start Command: npm run start
    ```
 
@@ -22,8 +22,8 @@
    ```
    NODE_ENV=production
    VITE_GA_MEASUREMENT_ID=G-RE8FYB41FC
-   EMAIL_USER=your-gmail@gmail.com (optional)
-   EMAIL_PASS=your-app-password (optional)
+   EMAIL_USER=techforge81@gmail.com
+   EMAIL_PASS=[YOUR_GMAIL_APP_PASSWORD]
    ```
 
 5. **Deploy**: Click "Create Web Service"
@@ -51,16 +51,23 @@ docker run -p 5000:5000 -e VITE_GA_MEASUREMENT_ID=G-RE8FYB41FC techforge-platfor
 
 To enable contact form emails:
 
-1. **Create Gmail App Password**:
+1. **Create Gmail App Password** (Required for Gmail):
    - Go to Google Account settings
+   - Security → 2-Step Verification → App passwords
    - Enable 2-factor authentication
    - Generate an App Password for "Mail"
+   - Use this 16-character password, NOT your regular Gmail password
 
 2. **Add Environment Variables in Render**:
    ```
-   EMAIL_USER=your-gmail@gmail.com
-   EMAIL_PASS=your-16-character-app-password
+   EMAIL_USER=techforge81@gmail.com
+   EMAIL_PASS=[YOUR_16_CHARACTER_APP_PASSWORD]
    ```
+
+### 🔐 **Important**: 
+- **Never use your regular Gmail password**
+- **Must use Gmail App Password** (16 characters, no spaces)
+- **2-Factor Authentication must be enabled** on Gmail account
 
 ## 📊 Google Analytics Setup
 
@@ -132,9 +139,16 @@ Test on multiple devices:
 **Contact Form Issues**:
 ```bash
 # Check EMAIL_USER and EMAIL_PASS variables
-# Verify Gmail App Password is correct
+# Verify Gmail App Password is correct (16 characters)
+# Ensure 2-Factor Authentication is enabled on Gmail
 # Check server logs for email errors
 ```
+
+### 📧 **Email Setup Steps**:
+1. **Enable 2FA** on your Gmail account
+2. **Generate App Password**: Google Account → Security → App passwords
+3. **Use App Password** (not regular password) in EMAIL_PASS
+4. **Test locally** before deploying
 
 ## 📞 Support
 

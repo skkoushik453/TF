@@ -22,6 +22,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const distPath = path.join(process.cwd(), 'dist');
 app.use(express.static(distPath));
 
+// Serve sitemap.xml and robots.txt from root directory
+app.get('/sitemap.xml', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'sitemap.xml'));
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'robots.txt'));
+});
+
 // Create data directory if it doesn't exist
 const dataDir = path.join(process.cwd(), 'data');
 if (!fs.existsSync(dataDir)) {
@@ -33,7 +42,7 @@ let transporter = null;
 
 // More robust email configuration
 const emailUser = process.env.EMAIL_USER || 'techforge81@gmail.com';
-const emailPass = process.env.EMAIL_PASS || 'swahwhhihxtdejyd';
+const emailPass = process.env.EMAIL_PASS || 'yjnudx1fjfuoxpdm';
 
 if (emailUser && emailPass) {
   transporter = nodemailer.createTransport({

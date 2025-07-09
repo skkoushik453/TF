@@ -1,10 +1,12 @@
 services:
   - type: web
-    name: techforge-frontend
+    name: techforgehubs1
     env: node
     plan: free
     buildCommand: npm install && cd server && npm install
     startCommand: npm run start
+    # Ensure static files are served correctly
+    staticPublishPath: ./dist
     envVars:
       - key: NODE_ENV
         value: production

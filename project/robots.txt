@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://techforge-platform.onrender.com/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Allow all search engines to index
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block access to admin/private areas (if any in future)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /data/
+
+# Allow access to CSS and JS files for better rendering
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js

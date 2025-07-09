@@ -22,13 +22,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const distPath = path.join(process.cwd(), 'dist');
 app.use(express.static(distPath));
 
-// Serve sitemap.xml and robots.txt from root directory
+// Serve sitemap.xml and robots.txt from public folder
 app.get('/sitemap.xml', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'sitemap.xml'));
+  res.sendFile(path.join(distPath, 'sitemap.xml'));
 });
 
 app.get('/robots.txt', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'robots.txt'));
+  res.sendFile(path.join(distPath, 'robots.txt'));
 });
 
 // Create data directory if it doesn't exist
